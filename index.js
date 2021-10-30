@@ -23,10 +23,18 @@ async function run(){
         const servicesCollection = database.collection('services');
         const ordersCollection = database.collection('orders');
         const allOrdersCollection = database.collection('allOrders');
+        const hotelCollection = database.collection('hotels');
 
         //GET API
         app.get('/services', async(req, res) => {
             const cursor = servicesCollection.find({});
+            const services = await cursor.toArray();
+            res.send(services);
+        });
+
+        //GET API for hotels
+        app.get('/hotels', async(req, res) => {
+            const cursor = hotelCollection.find({});
             const services = await cursor.toArray();
             res.send(services);
         });
