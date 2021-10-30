@@ -22,6 +22,7 @@ async function run(){
         const database = client.db('worldTour');
         const servicesCollection = database.collection('services');
         const ordersCollection = database.collection('orders');
+        const allOrdersCollection = database.collection('allOrders');
 
         //GET API
         app.get('/services', async(req, res) => {
@@ -33,6 +34,12 @@ async function run(){
         //GET ORDERS API
         app.get('/orders', async(req, res) => {
             const cursor = ordersCollection.find({});
+            const services = await cursor.toArray();
+            res.send(services);
+        });
+        //GET Manage ALLORDERS API
+        app.get('/allOrders', async(req, res) => {
+            const cursor = allOrdersCollection.find({});
             const services = await cursor.toArray();
             res.send(services);
         });
@@ -56,7 +63,7 @@ async function run(){
             res.json(result);
         });
 
-        //ORDERS API
+        //POST API for orders
         app.post('/orders', async(req, res) => {
             const order = req.body;
             console.log('order', order);
@@ -64,12 +71,54 @@ async function run(){
             res.json(result);
         })
 
+        //POST API for manage all orders
+        app.post('/allOrders', async(req, res) => {
+            const order = req.body;
+            console.log('order', order);
+            const result = await allOrdersCollection.insertOne(order);
+            res.json(result);
+        })
+
+        //  update api for orders
+      app.put('/orders/:id', async(req, res) => {
+        const id = req.params.id;
+        const updatedOrder = req.body;
+        const filter = {_id: ObjectId(id)};
+        const options = {upsert: true};
+        const updateDoc = {
+          $set: {
+            status: updatedOrder.status
+          },
+        };
+        const result = await ordersCollection.updateOne(filter, updateDoc, options)
+        console.log('updated user', req);
+        res.json(result);
+      })
+
 
         //DELETE API
         app.delete('/services/:id', async(req, res) => {
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const result = await servicesCollection.deleteOne(query);
+            console.log('deleted user with id : ', result);
+            res.json(result);
+        })
+
+        //DELETE API for orders
+        app.delete('/orders/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await ordersCollection.deleteOne(query);
+            console.log('deleted user with id : ', result);
+            res.json(result);
+        })
+
+        //DELETE API for manage all orders
+        app.delete('/allOrders/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await allOrdersCollection.deleteOne(query);
             console.log('deleted user with id : ', result);
             res.json(result);
         })
