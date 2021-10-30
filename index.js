@@ -74,7 +74,7 @@ async function run(){
         //POST API for orders
         app.post('/orders', async(req, res) => {
             const order = req.body;
-            console.log('order', order);
+            console.log('orders', order);
             const result = await ordersCollection.insertOne(order);
             res.json(result);
         })
@@ -82,7 +82,7 @@ async function run(){
         //POST API for manage all orders
         app.post('/allOrders', async(req, res) => {
             const order = req.body;
-            console.log('order', order);
+            console.log('orders', order);
             const result = await allOrdersCollection.insertOne(order);
             res.json(result);
         })
