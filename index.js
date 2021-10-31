@@ -121,16 +121,24 @@ async function run(){
 
 
         //DELETE API
-        app.delete('/services/:id', async(req, res) => {
-            const id = req.params.id;
-            const query = {_id: ObjectId(id)};
-            const result = await servicesCollection.deleteOne(query);
-            console.log('deleted user with id : ', result);
-            res.json(result);
-        })
+        // app.delete('/services/:id', async(req, res) => {
+        //     const id = req.params.id;
+        //     const query = {_id: ObjectId(id)};
+        //     const result = await servicesCollection.deleteOne(query);
+        //     console.log('deleted user with id : ', result);
+        //     res.json(result);
+        // })
 
         //DELETE API for orders
         app.delete('/orders/:id', async(req, res) => {
+            const id = req.params.id;
+            const query = {_id: ObjectId(id)};
+            const result = await ordersCollection.deleteOne(query);
+            console.log('deleted user with id : ', result);
+            res.json(result);
+        })
+        //DELETE API for orders onetime
+        app.delete('/orders', async(req, res) => {
             const id = req.params.id;
             const query = {_id: ObjectId(id)};
             const result = await ordersCollection.deleteOne(query);
