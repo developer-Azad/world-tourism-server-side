@@ -46,11 +46,11 @@ async function run(){
             res.send(services);
         });
         //GET Manage ALLORDERS API
-        app.get('/allOrders', async(req, res) => {
-            const cursor = allOrdersCollection.find({});
-            const services = await cursor.toArray();
-            res.send(services);
-        });
+        // app.get('/allOrders', async(req, res) => {
+        //     const cursor = allOrdersCollection.find({});
+        //     const services = await cursor.toArray();
+        //     res.send(services);
+        // });
 
         //GET single service
         app.get('/services/:id', async(req, res) => {
@@ -80,12 +80,12 @@ async function run(){
         })
 
         //POST API for manage all orders
-        app.post('/allOrders', async(req, res) => {
-            const order = req.body;
-            console.log('orders', order);
-            const result = await allOrdersCollection.insertOne(order);
-            res.json(result);
-        })
+        // app.post('/allOrders', async(req, res) => {
+        //     const order = req.body;
+        //     console.log('orders', order);
+        //     const result = await allOrdersCollection.insertOne(order);
+        //     res.json(result);
+        // })
 
         //  update api for orders
       app.put('/orders/:id', async(req, res) => {
@@ -104,20 +104,20 @@ async function run(){
       })
 
         //  update api for all orders
-      app.put('/allOrders/:id', async(req, res) => {
-        const id = req.params.id;
-        const updatedOrder = req.body;
-        const filter = {_id: ObjectId(id)};
-        const options = {upsert: true};
-        const updateDoc = {
-          $set: {
-            status: updatedOrder.status
-          },
-        };
-        const result = await allOrdersCollection.updateOne(filter, updateDoc, options)
-        console.log('updated user', req);
-        res.json(result);
-      })
+    //   app.put('/allOrders/:id', async(req, res) => {
+    //     const id = req.params.id;
+    //     const updatedOrder = req.body;
+    //     const filter = {_id: ObjectId(id)};
+    //     const options = {upsert: true};
+    //     const updateDoc = {
+    //       $set: {
+    //         status: updatedOrder.status
+    //       },
+    //     };
+    //     const result = await allOrdersCollection.updateOne(filter, updateDoc, options)
+    //     console.log('updated user', req);
+    //     res.json(result);
+    //   })
 
 
         //DELETE API
@@ -138,22 +138,22 @@ async function run(){
             res.json(result);
         })
         //DELETE API for orders onetime
-        app.delete('/orders', async(req, res) => {
-            const id = req.params.id;
-            const query = {_id: ObjectId(id)};
-            const result = await ordersCollection.deleteOne(query);
-            console.log('deleted user with id : ', result);
-            res.json(result);
-        })
+        // app.delete('/orders', async(req, res) => {
+        //     const id = req.params.id;
+        //     const query = {_id: ObjectId(id)};
+        //     const result = await ordersCollection.deleteOne(query);
+        //     console.log('deleted user with id : ', result);
+        //     res.json(result);
+        // })
 
         //DELETE API for manage all orders
-        app.delete('/allOrders/:id', async(req, res) => {
-            const id = req.params.id;
-            const query = {_id: ObjectId(id)};
-            const result = await allOrdersCollection.deleteOne(query);
-            console.log('deleted user with id : ', result);
-            res.json(result);
-        })
+        // app.delete('/allOrders/:id', async(req, res) => {
+        //     const id = req.params.id;
+        //     const query = {_id: ObjectId(id)};
+        //     const result = await allOrdersCollection.deleteOne(query);
+        //     console.log('deleted user with id : ', result);
+        //     res.json(result);
+        // })
     }
     finally {
         // await client.close();
